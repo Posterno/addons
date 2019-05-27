@@ -627,15 +627,15 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@pressmodo/eslint-config@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pressmodo/eslint-config/-/eslint-config-0.1.0.tgz#85de9dc1830f97a7b7570396bfc80a5aa5bed525"
-  integrity sha512-ssRb/OW8PHuzDIU/kdlytzpn/P5k5C8h87GmKiQ0U8o4QVyKRPljwSHukjdVIirA7FJro1lZu8vIUeLMgWBFbQ==
+"@pressmodo/eslint-config@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@pressmodo/eslint-config/-/eslint-config-0.2.0.tgz#bd33fe84d2b800d3fc980384eb507111ca80b768"
+  integrity sha512-MKTSXlVTmhGA+KGu5nCGxkLu/HXFNVmJQDAztt995zi7iPufmEbE5yoEAchkQS+iRk/9QmLVkQqkvTmWl9HwFw==
 
-"@pressmodo/stylelint-config@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pressmodo/stylelint-config/-/stylelint-config-0.1.0.tgz#8ef518036c0ac6693c83a4501e84e0fbe205ce89"
-  integrity sha512-SdCfgQsfkkoOGEZnG4dpzeohJDXqbozYs7uviDVi8XJXC0CHR0VgJzYv5NBMxE6SEF/S2+H25vJkkERq1hxg1g==
+"@pressmodo/stylelint-config@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@pressmodo/stylelint-config/-/stylelint-config-0.2.0.tgz#344d0303610ecf93a76aa2699b7345ffe6649144"
+  integrity sha512-IiL0qrD+Gq0Z/OjRGetuKSwYohT3HCFXYhVbLgKkv5jSbN1fGcISdIEEnT8Df6Nwr9V+YxwWfgShAG+b3INFZA==
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
