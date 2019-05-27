@@ -11,6 +11,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+( new PosternoAddons\Categorize() )->hooks();
 ( new PosternoAddons\Page() )->hooks();
 
 /**
