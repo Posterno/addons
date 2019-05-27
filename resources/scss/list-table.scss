@@ -1,0 +1,19 @@
+body.post-type-listings {
+	.wrap {
+		h1.wp-heading-inline {
+			display: none;
+
+			~ .page-title-action {
+				display: none;
+			}
+		}
+	}
+
+	h2 {
+		.page-title-action {
+			margin-left: 10px;
+			top: 5px;
+		}
+	}
+
+}
