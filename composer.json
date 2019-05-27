@@ -16,7 +16,10 @@
 	"autoload": {
 		"psr-4": {
 			"PosternoAddons\\": "includes/classes/"
-		}
+		},
+		"files" : [
+			"addons-loader.php"
+		]
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "0.4.4",
