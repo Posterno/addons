@@ -44,7 +44,7 @@ defined( 'ABSPATH' ) || exit;
 		<div class="plugin-card-top">
 			<div class="name column-name">
 				<h3>
-					<a href="<?php echo esc_url( $addon['url'] ); ?>">
+					<a href="<?php echo esc_url( $addon['url'] ); ?>" rel="nofollow" target="_blank">
 						<?php echo esc_html( $addon['title'] ); ?>
 						<img src="<?php echo esc_url( $addon['icon'] ); ?>" class="plugin-icon" alt="">
 					</a>
@@ -52,7 +52,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 			<div class="action-links">
 				<ul class="plugin-action-buttons">
-					<li><a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button">Get this extension</a></li>
+					<li><a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button" rel="nofollow" target="_blank">Get this extension</a></li>
 				</ul>
 			</div>
 			<div class="desc column-description">
@@ -61,7 +61,7 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 		<div class="plugin-card-bottom">
 			<div class="column-compatibility">
-				<a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button">Get this extension</a>
+				<a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button" rel="nofollow" target="_blank">Get this extension</a>
 			</div>
 		</div>
 	</div>
