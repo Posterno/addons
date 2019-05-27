@@ -19,10 +19,17 @@ defined( 'ABSPATH' ) || exit;
 class Page {
 
 	/**
+	 * Holds the url of the addons api.
+	 *
+	 * @var string
+	 */
+	public $api_url = null;
+
+	/**
 	 * Get things started.
 	 */
 	public function __construct() {
-
+		$this->api_url = 'https://posterno.cdn.prismic.io/api/v2';
 	}
 
 	/**
@@ -56,13 +63,96 @@ class Page {
 		if ( $screen->id === 'edit-listings' ) {
 			wp_enqueue_style( 'posterno-addons-listings-table', PNO_PLUGIN_URL . 'vendor/posterno/addons/dist/css/list-table.css', false, PNO_VERSION );
 		}
+
+		if ( $screen->id === 'listings_page_posterno-addons' ) {
+			wp_enqueue_style( 'pno-options-panel', PNO_PLUGIN_URL . '/assets/css/admin/admin-settings-panel.min.css', false, PNO_VERSION );
+		}
 	}
 
 	/**
 	 * Display content of the page.
 	 */
 	public function display() {
-		echo 'adsasd';
+
+		$addons = $this->get_addons();
+
+		include PNO_PLUGIN_DIR . 'vendor/posterno/addons/includes/views/addons-page.php';
+
+	}
+
+	/**
+	 * Get addons from the api.
+	 *
+	 * @return array
+	 */
+	public function get_addons() {
+
+		$api_url = $this->api_url;
+
+		$addons = remember_transient(
+			'pno_addons_list',
+			function () use ( $api_url ) {
+
+				$found_addons = [];
+
+				// Find the master branch REF for the api.
+				$ref_request = wp_remote_get( $api_url );
+
+				if ( is_wp_error( $ref_request ) ) {
+					return [];
+				}
+
+				$ref_body = wp_remote_retrieve_body( $ref_request );
+
+				if ( ! empty( $ref_body ) ) {
+					$ref_body = \json_decode( $ref_body );
+				}
+
+				if ( isset( $ref_body->refs[0]->ref ) ) {
+					$api_url = 'https://posterno.cdn.prismic.io/api/v1/documents/search?ref=' . esc_html( $ref_body->refs[0]->ref ) . '&q=[[:d+=+at(document.id,+"XOj-HRYAAGTU6GnB")+]]';
+				} else {
+					return [];
+				}
+
+				$request = wp_remote_get( $api_url );
+
+				if ( is_wp_error( $request ) ) {
+					return [];
+				}
+
+				$body = wp_remote_retrieve_body( $request );
+
+				if ( ! empty( $body ) ) {
+					$body = \json_decode( $body );
+				}
+
+				if ( isset( $body->results ) && is_array( $body->results ) && ! empty( $body->results ) ) {
+					foreach ( $body->results as $addon ) {
+						$id          = isset( $addon->slugs[0] ) ? wp_strip_all_tags( $addon->slugs[0] ) : false;
+						$title       = isset( $addon->data->addons->title->value[0]->text ) ? wp_strip_all_tags( $addon->data->addons->title->value[0]->text ) : false;
+						$description = isset( $addon->data->addons->description->value[0]->text ) ? wp_strip_all_tags( $addon->data->addons->description->value[0]->text ) : false;
+						$url         = isset( $addon->data->addons->download_url->value->url ) ? wp_strip_all_tags( $addon->data->addons->download_url->value->url ) : false;
+						$icon        = isset( $addon->data->addons->addon_icon->value->main->url ) ? esc_url( $addon->data->addons->addon_icon->value->main->url ) : false;
+
+						if ( $id && $title && $description && $url ) {
+							$found_addons[ $id ] = [
+								'title' => $title,
+								'desc'  => $description,
+								'url'   => $url,
+								'icon'  => $icon,
+							];
+						}
+					}
+				}
+
+				return $found_addons;
+
+			},
+			DAY_IN_SECONDS
+		);
+
+		return $addons;
+
 	}
 
 }
