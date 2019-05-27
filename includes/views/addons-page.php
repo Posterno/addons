@@ -52,7 +52,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 			<div class="action-links">
 				<ul class="plugin-action-buttons">
-					<li><a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button" rel="nofollow" target="_blank">Get this extension</a></li>
+					<li><a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button" rel="nofollow" target="_blank"><?php esc_html_e( 'Get this extension' ); ?></a></li>
 				</ul>
 			</div>
 			<div class="desc column-description">
@@ -61,7 +61,7 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 		<div class="plugin-card-bottom">
 			<div class="column-compatibility">
-				<a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button" rel="nofollow" target="_blank">Get this extension</a>
+				<a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button" rel="nofollow" target="_blank"><?php esc_html_e( 'Get this extension' ); ?></a>
 			</div>
 		</div>
 	</div>
