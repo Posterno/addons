@@ -184,9 +184,6 @@ class License {
 
 		$submitted_license = isset( $_POST[ $this->addon_shortname ] ) ? sanitize_text_field( $_POST[ $this->addon_shortname ] ) : false;
 
-		var_dump( $submitted_license );
-		exit;
-
 		$api_params = array(
 			'edd_action' => 'activate_license',
 			'license'    => $submitted_license,
@@ -245,9 +242,11 @@ class License {
 			}
 		}
 
-		/*
-		pno_update_option( $this->addon_shortname, $submitted_license );
-		pno_update_option( $this->addon_shortname . '_status', sanitize_text_field( $license_data->license ) );
+		if ( $license_data->success === true ) {
+			pno_update_option( $this->addon_shortname, $submitted_license );
+			pno_update_option( $this->addon_shortname . '_status', sanitize_text_field( $license_data->license ) );
+			pno_update_option( $this->addon_shortname . '_expires', sanitize_text_field( $license_data->expires ) );
+		}
 
 		$base_url = admin_url( 'tools.php?page=posterno-tools&tab=licenses' );
 
@@ -270,7 +269,7 @@ class License {
 			$base_url
 		);
 		wp_safe_redirect( $redirect );
-		exit();*/
+		exit();
 
 	}
 
@@ -340,6 +339,7 @@ class License {
 		if ( $license_data->license === 'deactivated' ) {
 			pno_delete_option( $this->addon_shortname );
 			pno_delete_option( $this->addon_shortname . '_status' );
+			pno_delete_option( $this->addon_shortname . '_expires' );
 		}
 
 		$redirect = add_query_arg(
