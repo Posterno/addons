@@ -54,6 +54,11 @@ class Activator {
 
 	}
 
+	/**
+	 * Load assets for the page.
+	 *
+	 * @return void
+	 */
 	public function assets() {
 
 		$screen = get_current_screen();
@@ -63,6 +68,11 @@ class Activator {
 		}
 	}
 
+	/**
+	 * Display the content of the page.
+	 *
+	 * @return void
+	 */
 	public function display() {
 
 		$addons = $this->get_addons();

@@ -36,6 +36,11 @@ defined( 'ABSPATH' ) || exit;
 		</tbody>
 	</table>
 
-	<?php submit_button( esc_html__( 'Save changes' ) ); ?>
+	<?php
+
+		wp_nonce_field( 'verify_posterno_licenses_form', 'posterno_licenses_nonce' );
+		submit_button( esc_html__( 'Save changes' ) );
+
+	?>
 
 </form>
