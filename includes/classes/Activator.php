@@ -93,6 +93,12 @@ class Activator {
 			return;
 		}
 
+		$screen = get_current_screen();
+
+		if ( $screen->id !== 'tools_page_posterno-tools' ) {
+			return;
+		}
+
 		if ( isset( $_GET['sl_activation'] ) && $_GET['sl_activation'] === 'false' && isset( $_GET['message'] ) && ! empty( $_GET['message'] ) ) {
 
 			$message = esc_html( $_GET['message'] );
@@ -103,6 +109,10 @@ class Activator {
 
 		if ( isset( $_GET['sl_activation'] ) && $_GET['sl_activation'] === 'true' ) {
 			posterno()->admin_notices->register_notice( 'addon_notice_success', 'success', esc_html__( 'Addon successfully activated.' ), [ 'dismissible' => false ] );
+		}
+
+		if ( isset( $_GET['sl_deactivated'] ) && $_GET['sl_deactivated'] === 'true' ) {
+			posterno()->admin_notices->register_notice( 'addon_notice_success_deactivation', 'success', esc_html__( 'Addon successfully deactivated.' ), [ 'dismissible' => false ] );
 		}
 
 	}
