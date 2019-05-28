@@ -243,6 +243,10 @@ class License {
 		}
 
 		if ( $license_data->success === true ) {
+
+			// Tell WordPress to look for updates.
+			set_site_transient( 'update_plugins', null );
+
 			pno_update_option( $this->addon_shortname, $submitted_license );
 			pno_update_option( $this->addon_shortname . '_status', sanitize_text_field( $license_data->license ) );
 			pno_update_option( $this->addon_shortname . '_expires', sanitize_text_field( $license_data->expires ) );

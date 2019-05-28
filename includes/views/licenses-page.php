@@ -41,6 +41,9 @@ defined( 'ABSPATH' ) || exit;
 						>
 
 						<div class="edd-license-data">
+							<div class="carbon-wp-notice notice-success is-alt">
+								<p><strong>asdasdasdasd</strong></p>
+							</div>
 							<?php if ( ! $license ) : ?>
 								<p><?php printf( esc_html__( 'To receive updates, please enter your valid "%s" license key.' ), $name ); ?></p>
 								<?php submit_button( 'Activate license', 'submit button-primary large-button', 'submit_'. $addon_id, false ); ?>
