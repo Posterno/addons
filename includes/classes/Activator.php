@@ -102,7 +102,7 @@ class Activator {
 		}
 
 		if ( isset( $_GET['sl_activation'] ) && $_GET['sl_activation'] === 'true' ) {
-			posterno()->admin_notices->register_notice( 'addon_notice_success', 'success', esc_html__( 'One or more addons have been successfully activated.' ), [ 'dismissible' => false ] );
+			posterno()->admin_notices->register_notice( 'addon_notice_success', 'success', esc_html__( 'Addon successfully activated.' ), [ 'dismissible' => false ] );
 		}
 
 	}
