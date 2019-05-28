@@ -45,10 +45,12 @@
 	padding: 14px;
 	border-top: 1px solid #eee;
 	margin: 20px -14px -14px;
-	min-height: 67px;
 	width: 100%;
 	bottom: 14px;
-	box-sizing: border-box
+	box-sizing: border-box;
+	p {
+		margin: 0 0 10px 0;
+	}
 }
 
 .wrap-licenses .edd-license-data[class*=edd-license-] a {
@@ -100,8 +102,10 @@
 }
 
 .edd-license-data {
-	.button {
+	.button,
+	input[type=submit] {
 		display: block;
 		text-align: center;
+		width: 100%;
 	}
 }

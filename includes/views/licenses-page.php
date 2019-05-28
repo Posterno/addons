@@ -39,9 +39,11 @@ defined( 'ABSPATH' ) || exit;
 							name="<?php echo esc_attr( $addon_id ); ?>"
 							value="<?php echo esc_attr( $license ); ?>"
 						>
+
 						<div class="edd-license-data">
 							<?php if ( ! $license ) : ?>
-								<?php submit_button( 'Activate license', 'submit', 'submit'. $addon_id ); ?>
+								<p><?php printf( esc_html__( 'To receive updates, please enter your valid "%s" license key.' ), $name ); ?></p>
+								<?php submit_button( 'Activate license', 'submit button-primary large-button', 'submit_'. $addon_id, false ); ?>
 							<?php elseif ( $license && $status === 'valid' ) : ?>
 								<a href="<?php echo esc_url( $this->get_deactivation_url( $addon_id ) ); ?>" class="button button-large"><?php esc_html_e( 'Deactivate' ); ?></a>
 							<?php endif; ?>

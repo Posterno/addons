@@ -45,10 +45,12 @@
 	padding: 14px;
 	border-top: 1px solid #eee;
 	margin: 20px -14px -14px;
-	min-height: 67px;
 	width: 100%;
 	bottom: 14px;
 	box-sizing: border-box;
+}
+.wrap-licenses .edd-license-data[class*=edd-license-] p {
+	margin: 0 0 10px 0;
 }
 
 .wrap-licenses .edd-license-data[class*=edd-license-] a {
@@ -99,8 +101,10 @@
 	clear: both;
 }
 
-.edd-license-data .button {
+.edd-license-data .button,
+.edd-license-data input[type=submit] {
 	display: block;
 	text-align: center;
+	width: 100%;
 }
 /*# sourceMappingURL=licenses-table.css.map*/
