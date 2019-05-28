@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 ( new PosternoAddons\Categorize() )->hooks();
 ( new PosternoAddons\Page() )->hooks();
+( new PosternoAddons\Activator() )->init();
 
 /**
  * Add addons links to post type list.
