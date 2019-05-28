@@ -98,6 +98,8 @@ class License {
 
 		$this->addon_shortname = 'pno_addon_' . preg_replace( '/[^a-zA-Z0-9_\s]/', '', str_replace( ' ', '_', strtolower( $this->addon_name ) ) );
 
+		$this->license = pno_get_option( $this->addon_shortname, false );
+
 		$this->register_addon();
 		$this->hooks();
 
