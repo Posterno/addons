@@ -15,22 +15,20 @@ defined( 'ABSPATH' ) || exit;
 
 <p><?php esc_html_e( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please renew your license.' ); ?></p>
 
-<?php foreach ( $addons as $addon_id => $addon ) : ?>
-
-	<?php
-
-		$license = $addon['license'];
-		$status  = $addon['status'];
-		$name    = $addon['name'];
-
-	?>
-
-	<form method="post" action="options.php" class="wrap-licenses">
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row"><?php echo esc_html( $name ); ?></th>
-					<td>
+<div class="wrap-licenses">
+	<table class="form-table">
+		<tbody>
+		<?php foreach ( $addons as $addon_id => $addon ) : ?>
+			<?php
+				$license = $addon['license'];
+				$status  = $addon['status'];
+				$name    = $addon['name'];
+				$expires = $addon['expires'];
+			?>
+			<tr>
+				<th scope="row"><?php echo esc_html( $name ); ?></th>
+				<td>
+					<form method="post" action="options.php">
 						<input
 							type="text"
 							placeholder="<?php esc_html_e( 'Enter your license key' ); ?>"
@@ -39,25 +37,33 @@ defined( 'ABSPATH' ) || exit;
 							name="<?php echo esc_attr( $addon_id ); ?>"
 							value="<?php echo esc_attr( $license ); ?>"
 						>
-
+						<?php if ( $license && $expires && ! $this->is_license_expired( $expires ) ) : ?>
+						<div class="carbon-wp-notice notice-success is-alt">
+							<p><strong><?php echo sprintf( esc_html__( 'License expires on %s' ), date_i18n( get_option( 'date_format' ), strtotime( $expires ) ) ); ?></strong></p>
+						</div>
+						<?php elseif ( $license && $expires && $this->is_license_expired( $expires ) ) : ?>
+						<div class="carbon-wp-notice notice-success is-alt">
+							<p><strong><?php echo sprintf( esc_html__( 'License expires on %s' ), date_i18n( get_option( 'date_format' ), strtotime( $expires ) ) ); ?></strong></p>
+						</div>
+						<?php elseif ( ! $license ) : ?>
+						<div class="carbon-wp-notice notice-warning is-alt">
+							<p><?php printf( esc_html__( 'To receive updates, please enter your valid "%s" license key.' ), $name ); ?></p>
+						</div>
+						<?php endif; ?>
 						<div class="edd-license-data">
-							<div class="carbon-wp-notice notice-success is-alt">
-								<p><strong>asdasdasdasd</strong></p>
-							</div>
 							<?php if ( ! $license ) : ?>
-								<p><?php printf( esc_html__( 'To receive updates, please enter your valid "%s" license key.' ), $name ); ?></p>
-								<?php submit_button( 'Activate license', 'submit button-primary large-button', 'submit_'. $addon_id, false ); ?>
+								<?php submit_button( 'Activate license', 'submit button-primary large-button', 'submit_' . $addon_id, false ); ?>
 							<?php elseif ( $license && $status === 'valid' ) : ?>
 								<a href="<?php echo esc_url( $this->get_deactivation_url( $addon_id ) ); ?>" class="button button-large"><?php esc_html_e( 'Deactivate' ); ?></a>
 							<?php endif; ?>
 						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<?php
-			wp_nonce_field( "verify_posterno_licenses_{$addon_id}_form", "posterno_licenses_{$addon_id}_nonce" );
-		?>
-	</form>
-<?php endforeach; ?>
+						<?php
+							wp_nonce_field( "verify_posterno_licenses_{$addon_id}_form", "posterno_licenses_{$addon_id}_nonce" );
+						?>
+					</form>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>

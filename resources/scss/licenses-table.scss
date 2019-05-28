@@ -40,13 +40,9 @@
 }
 
 .wrap-licenses .edd-license-data[class*=edd-license-] {
-	position: absolute;
 	background: #fafafa;
 	padding: 14px;
 	border-top: 1px solid #eee;
-	margin: 20px -14px -14px;
-	width: 100%;
-	bottom: 14px;
 	box-sizing: border-box;
 	p {
 		margin: 0 0 10px 0;
@@ -107,5 +103,14 @@
 		display: block;
 		text-align: center;
 		width: 100%;
+	}
+}
+
+.wrap-licenses {
+	.carbon-wp-notice {
+		margin-bottom: 10px;
+		p {
+			margin: 10px 0;
+		}
 	}
 }

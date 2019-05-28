@@ -127,4 +127,12 @@ class Activator {
 
 	}
 
+	public function is_license_expired( $license_date ) {
+
+		$expired = false;
+
+		return $expired;
+
+	}
+
 }
