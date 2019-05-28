@@ -254,7 +254,7 @@ class License {
 		}
 
 		pno_update_option( $this->addon_shortname, $submitted_license );
-		pno_update_option( $this->addon_shortname . '_status', $license_data->license );
+		pno_update_option( $this->addon_shortname . '_status', sanitize_text_field( $license_data->license ) );
 
 		$redirect = add_query_arg(
 			array(
