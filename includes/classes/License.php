@@ -72,7 +72,7 @@ class License {
 	 *
 	 * @var string
 	 */
-	private $api_url;
+	private $api_url = 'http://pno.local';
 
 	/**
 	 * Get things started.
@@ -99,6 +99,7 @@ class License {
 		$this->addon_shortname = 'pno_addon_' . preg_replace( '/[^a-zA-Z0-9_\s]/', '', str_replace( ' ', '_', strtolower( $this->addon_name ) ) );
 
 		$this->register_addon();
+		$this->hooks();
 
 	}
 
@@ -120,6 +121,40 @@ class License {
 				return $addons;
 
 			}
+		);
+
+	}
+
+	/**
+	 * Load hooks for this addon.
+	 *
+	 * @return void
+	 */
+	public function hooks() {
+
+		add_action( 'admin_init', [ $this, 'updater' ], 0 );
+
+	}
+
+	/**
+	 * Trigger updates for the addon.
+	 *
+	 * @return void
+	 */
+	public function updater() {
+
+		$license_key = pno_get_option( $this->addon_shortname, false );
+
+		$edd_updater = new \EDD_SL_Plugin_Updater(
+			$this->api_url,
+			$this->file,
+			array(
+				'version' => $this->version,
+				'license' => $license_key,
+				'item_id' => $this->addon_id,
+				'author'  => $this->author,
+				'beta'    => false,
+			)
 		);
 
 	}
