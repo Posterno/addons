@@ -133,6 +133,7 @@ class License {
 	public function hooks() {
 
 		add_action( 'admin_init', [ $this, 'updater' ], 0 );
+		add_action( 'admin_init', [ $this, 'activate_license' ] );
 
 	}
 
@@ -156,6 +157,113 @@ class License {
 				'beta'    => false,
 			)
 		);
+
+	}
+
+	/**
+	 * Activate a license.
+	 *
+	 * @return void
+	 */
+	public function activate_license() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['posterno_licenses_nonce'] ) ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( $_POST['posterno_licenses_nonce'], 'verify_posterno_licenses_form' ) ) {
+			return;
+		}
+
+		$submitted_license = isset( $_POST['pno_licenses'][ $this->addon_shortname ] ) ? sanitize_text_field( $_POST['pno_licenses'][ $this->addon_shortname ] ) : false;
+
+		$api_params = array(
+			'edd_action' => 'activate_license',
+			'license'    => $submitted_license,
+			'item_name'  => rawurlencode( $this->addon_name ), // the name of our product in EDD
+			'url'        => home_url(),
+		);
+
+		$response = wp_remote_post(
+			$this->api_url,
+			array(
+				'timeout'   => 15,
+				'sslverify' => false,
+				'body'      => $api_params,
+			)
+		);
+
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			if ( is_wp_error( $response ) ) {
+				$message = $response->get_error_message();
+			} else {
+				$message = esc_html__( 'An error occurred, please try again.' );
+			}
+		} else {
+
+			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+			if ( false === $license_data->success ) {
+				switch ( $license_data->error ) {
+					case 'expired':
+						$message = sprintf(
+							esc_html__( 'Your license key expired on %s.' ),
+							date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
+						);
+						break;
+					case 'disabled':
+					case 'revoked':
+						$message = esc_html__( 'Your license key has been disabled.' );
+						break;
+					case 'missing':
+						$message = esc_html__( 'Invalid license.' );
+						break;
+					case 'invalid':
+					case 'site_inactive':
+						$message = esc_html__( 'Your license is not active for this URL.' );
+						break;
+					case 'item_name_mismatch':
+						$message = sprintf( esc_html__( 'This appears to be an invalid license key for %s.' ), $this->addon_name );
+						break;
+					case 'no_activations_left':
+						$message = esc_html__( 'Your license key has reached its activation limit.' );
+						break;
+					default:
+						$message = esc_html__( 'An error occurred, please try again.' );
+						break;
+				}
+			}
+		}
+
+		$base_url = admin_url( 'tools.php?page=posterno-tools&tab=licenses' );
+
+		if ( ! empty( $message ) ) {
+			$redirect = add_query_arg(
+				array(
+					'sl_activation' => 'false',
+					'message'       => rawurlencode( $message ),
+				),
+				$base_url
+			);
+			wp_safe_redirect( $redirect );
+			exit();
+		}
+
+		pno_update_option( $this->addon_shortname, $submitted_license );
+		pno_update_option( $this->addon_shortname . '_status', $license_data->license );
+
+		$redirect = add_query_arg(
+			array(
+				'sl_activation' => 'true',
+			),
+			$base_url
+		);
+		wp_safe_redirect( $redirect );
+		exit();
 
 	}
 

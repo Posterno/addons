@@ -27,6 +27,7 @@ class Activator {
 		add_filter( 'pno_tools_tabs', [ $this, 'register_tool' ] );
 		add_action( 'pno_tools_licenses', [ $this, 'display' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'assets' ] );
+		add_action( 'admin_head', [ $this, 'notices' ] );
 	}
 
 	/**
@@ -78,6 +79,31 @@ class Activator {
 		$addons = $this->get_addons();
 
 		include PNO_PLUGIN_DIR . 'vendor/posterno/addons/includes/views/licenses-page.php';
+
+	}
+
+	/**
+	 * Display admin notices when updating licenses.
+	 *
+	 * @return void
+	 */
+	public function notices() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( isset( $_GET['sl_activation'] ) && $_GET['sl_activation'] === 'false' && isset( $_GET['message'] ) && ! empty( $_GET['message'] ) ) {
+
+			$message = esc_html( $_GET['message'] );
+
+			posterno()->admin_notices->register_notice( 'addon_notice', 'error', $message, [ 'dismissible' => false ] );
+
+		}
+
+		if ( isset( $_GET['sl_activation'] ) && $_GET['sl_activation'] === 'true' ) {
+			posterno()->admin_notices->register_notice( 'addon_notice_success', 'success', esc_html__( 'One or more addons have been successfully activated.' ), [ 'dismissible' => false ] );
+		}
 
 	}
 
