@@ -115,7 +115,9 @@ class License {
 			function( $addons ) {
 
 				$addons[ $this->addon_shortname ] = [
-					'name' => $this->addon_name,
+					'name'    => $this->addon_name,
+					'license' => pno_get_option( $this->addon_shortname, false ),
+					'status'  => pno_get_option( $this->addon_shortname . '_status', false ),
 				];
 
 				return $addons;
@@ -134,6 +136,7 @@ class License {
 
 		add_action( 'admin_init', [ $this, 'updater' ], 0 );
 		add_action( 'admin_init', [ $this, 'activate_license' ] );
+		add_action( 'admin_init', [ $this, 'deactivate_license' ] );
 
 	}
 
@@ -171,15 +174,18 @@ class License {
 			return;
 		}
 
-		if ( ! isset( $_POST['posterno_licenses_nonce'] ) ) {
+		if ( ! isset( $_POST[ "posterno_licenses_{$this->addon_shortname}_nonce" ] ) ) {
 			return;
 		}
 
-		if ( ! wp_verify_nonce( $_POST['posterno_licenses_nonce'], 'verify_posterno_licenses_form' ) ) {
+		if ( ! wp_verify_nonce( $_POST[ "posterno_licenses_{$this->addon_shortname}_nonce" ], "verify_posterno_licenses_{$this->addon_shortname}_form" ) ) {
 			return;
 		}
 
-		$submitted_license = isset( $_POST['pno_licenses'][ $this->addon_shortname ] ) ? sanitize_text_field( $_POST['pno_licenses'][ $this->addon_shortname ] ) : false;
+		$submitted_license = isset( $_POST[ $this->addon_shortname ] ) ? sanitize_text_field( $_POST[ $this->addon_shortname ] ) : false;
+
+		var_dump( $submitted_license );
+		exit;
 
 		$api_params = array(
 			'edd_action' => 'activate_license',
@@ -239,6 +245,10 @@ class License {
 			}
 		}
 
+		/*
+		pno_update_option( $this->addon_shortname, $submitted_license );
+		pno_update_option( $this->addon_shortname . '_status', sanitize_text_field( $license_data->license ) );
+
 		$base_url = admin_url( 'tools.php?page=posterno-tools&tab=licenses' );
 
 		if ( ! empty( $message ) ) {
@@ -253,15 +263,93 @@ class License {
 			exit();
 		}
 
-		pno_update_option( $this->addon_shortname, $submitted_license );
-		pno_update_option( $this->addon_shortname . '_status', sanitize_text_field( $license_data->license ) );
-
 		$redirect = add_query_arg(
 			array(
 				'sl_activation' => 'true',
 			),
 			$base_url
 		);
+		wp_safe_redirect( $redirect );
+		exit();*/
+
+	}
+
+	/**
+	 * Deactivate this license.
+	 *
+	 * @return void
+	 */
+	public function deactivate_license() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( ! isset( $_GET['addon'] ) || ( isset( $_GET['addon'] ) && $_GET['addon'] !== $this->addon_shortname ) || ! isset( $_GET['action'] ) || ( isset( $_GET['action'] ) && $_GET['action'] !== 'deactivate-license' ) ) {
+			return;
+		}
+
+		if ( ! isset( $_GET[ "pno_licenses_{$this->addon_shortname}_deactivation_nonce" ] ) ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( $_GET[ "pno_licenses_{$this->addon_shortname}_deactivation_nonce" ], "verify_pno_licenses_{$this->addon_shortname}_deactivation" ) ) {
+			return;
+		}
+
+		$api_params = array(
+			'edd_action' => 'deactivate_license',
+			'license'    => pno_get_option( $this->addon_shortname ),
+			'item_name'  => rawurlencode( $this->addon_name ),
+			'url'        => home_url(),
+		);
+
+		$response = wp_remote_post(
+			$this->api_url,
+			array(
+				'timeout'   => 15,
+				'sslverify' => false,
+				'body'      => $api_params,
+			)
+		);
+
+		$base_url = admin_url( 'tools.php?page=posterno-tools&tab=licenses' );
+
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+
+			if ( is_wp_error( $response ) ) {
+				$message = $response->get_error_message();
+			} else {
+				$message = esc_html__( 'An error occurred, please try again.' );
+			}
+
+			$redirect = add_query_arg(
+				array(
+					'sl_activation' => 'false',
+					'message'       => rawurlencode( $message ),
+				),
+				$base_url
+			);
+
+			wp_safe_redirect( $redirect );
+			exit();
+		}
+
+		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+		if ( $license_data->license === 'deactivated' ) {
+			pno_delete_option( $this->addon_shortname );
+			pno_delete_option( $this->addon_shortname . '_status' );
+		}
+
+		$redirect = add_query_arg(
+			array(
+				'sl_deactivated' => 'true',
+				'message'        => rawurlencode( $message ),
+			),
+			$base_url
+		);
+
 		wp_safe_redirect( $redirect );
 		exit();
 

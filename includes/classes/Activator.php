@@ -107,4 +107,24 @@ class Activator {
 
 	}
 
+	/**
+	 * Get deactivation url for a given addon.
+	 *
+	 * @param string $addon_id the id of the addon.
+	 * @return string
+	 */
+	public function get_deactivation_url( $addon_id ) {
+
+		$url = add_query_arg(
+			[
+				'addon'  => $addon_id,
+				'action' => 'deactivate-license',
+			],
+			admin_url( 'tools.php?page=posterno-tools&tab=licenses' )
+		);
+
+		return wp_nonce_url( $url, "verify_pno_licenses_{$addon_id}_deactivation", "pno_licenses_{$addon_id}_deactivation_nonce" );
+
+	}
+
 }
