@@ -139,6 +139,8 @@ class License {
 		add_action( 'admin_init', [ $this, 'activate_license' ] );
 		add_action( 'admin_init', [ $this, 'deactivate_license' ] );
 
+		add_action( 'after_plugin_row_' . plugin_basename( $this->file ), [ $this, 'plugin_page_notices' ], 10, 3 );
+
 	}
 
 	/**
@@ -341,11 +343,9 @@ class License {
 
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
-		if ( $license_data->license === 'deactivated' ) {
-			pno_delete_option( $this->addon_shortname );
-			pno_delete_option( $this->addon_shortname . '_status' );
-			pno_delete_option( $this->addon_shortname . '_expires' );
-		}
+		pno_delete_option( $this->addon_shortname );
+		pno_delete_option( $this->addon_shortname . '_status' );
+		pno_delete_option( $this->addon_shortname . '_expires' );
 
 		$redirect = add_query_arg(
 			array(
@@ -358,6 +358,42 @@ class License {
 		wp_safe_redirect( $redirect );
 		exit();
 
+	}
+
+	/**
+	 * Display notices below the plugin's row.
+	 *
+	 * @param string $file data.
+	 * @param string $data data.
+	 * @param string $status data.
+	 * @return void
+	 */
+	public function plugin_page_notices( $file, $data, $status ) {
+
+		$update_notice_wrap = '<tr class="pno-addon-notice-tr active"><td colspan="3" class="colspanchange"><div class="notice inline notice-error notice-alt pno-invalid-license"><p><span class="dashicons dashicons-info" style="color:red;"></span> %s</p></div></td></tr>';
+		$message            = $this->license_state_message();
+
+		if ( ! empty( $message['message'] ) ) {
+			echo sprintf( $update_notice_wrap, $message['message'] );
+		}
+
+	}
+
+	/**
+	 * Get message related to license state.
+	 *
+	 * @return array
+	 */
+	public function license_state_message() {
+		$message_data = array();
+		if ( ! pno_get_option( $this->addon_shortname ) ) {
+			$message_data['message'] = sprintf(
+				__( 'Please <a href="%1$s">activate your license</a> to receive updates and support for the %2$s add-on.' ),
+				esc_url( admin_url( 'tools.php?page=posterno-tools&tab=licenses' ) ),
+				'<strong>' . $this->addon_name . '</strong>'
+			);
+		}
+		return $message_data;
 	}
 
 }
