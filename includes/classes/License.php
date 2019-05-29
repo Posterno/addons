@@ -259,8 +259,7 @@ class License {
 			set_site_transient( 'update_plugins', null );
 
 			pno_update_option( $this->addon_shortname, $submitted_license );
-			pno_update_option( $this->addon_shortname . '_status', sanitize_text_field( $license_data->license ) );
-			pno_update_option( $this->addon_shortname . '_expires', sanitize_text_field( $license_data->expires ) );
+			update_option( $this->addon_shortname . '_license_data', $license_data );
 		}
 
 		$base_url = admin_url( 'tools.php?page=posterno-tools&tab=licenses' );
@@ -352,9 +351,7 @@ class License {
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
 		pno_delete_option( $this->addon_shortname );
-		pno_delete_option( $this->addon_shortname . '_status' );
-		pno_delete_option( $this->addon_shortname . '_expires' );
-		pno_delete_option( $this->addon_shortname . '_license_data' );
+		delete_option( $this->addon_shortname . '_license_data' );
 
 		$redirect = add_query_arg(
 			array(
