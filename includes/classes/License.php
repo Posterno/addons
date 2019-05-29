@@ -143,6 +143,10 @@ class License {
 
 		add_action( 'after_plugin_row_' . plugin_basename( $this->file ), [ $this, 'plugin_page_notices' ], 10, 3 );
 
+		if ( pno_doing_cron() ) {
+			add_action( 'posterno_weekly_scheduled_events', [ $this, 'weekly_license_check' ] );
+		}
+
 	}
 
 	/**
@@ -348,6 +352,7 @@ class License {
 		pno_delete_option( $this->addon_shortname );
 		pno_delete_option( $this->addon_shortname . '_status' );
 		pno_delete_option( $this->addon_shortname . '_expires' );
+		pno_delete_option( $this->addon_shortname . '_license_data' );
 
 		$redirect = add_query_arg(
 			array(
@@ -396,6 +401,17 @@ class License {
 			);
 		}
 		return $message_data;
+	}
+
+	/**
+	 * Check licenses status once a week.
+	 *
+	 * @return void
+	 */
+	public function weekly_license_check() {
+
+		pno_check_addon_license( $this->addon_shortname, $this->addon_name, $this->addon_id, $this->api_url );
+
 	}
 
 }

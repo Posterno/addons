@@ -64,3 +64,54 @@ function pno_display_admin_listings_tabs() {
 	<br />
 	<?php
 }
+
+/**
+ * Query the EDD Api to check the status of a license.
+ *
+ * @param string $addon_shortname addon shortname.
+ * @param string $addon_name name of the addon in EDD.
+ * @param string $addon_id ID of the addon in EDD.
+ * @param string $api_url api url.
+ * @return void
+ */
+function pno_check_addon_license( $addon_shortname, $addon_name, $addon_id, $api_url ) {
+
+	if ( ! $addon_shortname ) {
+		return;
+	}
+
+	$license_key = pno_get_option( $addon_shortname, false );
+
+	if ( ! $license_key ) {
+		return;
+	}
+
+	$api_params = array(
+		'edd_action' => 'check_license',
+		'license'    => $license_key,
+		'item_name'  => rawurlencode( $addon_name ),
+		'url'        => home_url(),
+	);
+
+	if ( ! empty( $addon_id ) ) {
+		$api_params['item_id'] = $addon_id;
+	}
+
+	$response = wp_remote_post(
+		$api_url,
+		array(
+			'timeout'   => 15,
+			'sslverify' => false,
+			'body'      => $api_params,
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		return false;
+	}
+
+	$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+	pno_update_option( $addon_shortname . '_license_data', $license_data );
+
+}
