@@ -119,8 +119,7 @@ class License {
 				$addons[ $this->addon_shortname ] = [
 					'name'    => $this->addon_name,
 					'license' => pno_get_option( $this->addon_shortname, false ),
-					'status'  => pno_get_option( $this->addon_shortname . '_status', false ),
-					'expires' => pno_get_option( $this->addon_shortname . '_expires', false ),
+					'data'    => $this->get_license_data(),
 				];
 
 				return $addons;

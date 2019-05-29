@@ -21,9 +21,8 @@ defined( 'ABSPATH' ) || exit;
 		<?php foreach ( $addons as $addon_id => $addon ) : ?>
 			<?php
 				$license = $addon['license'];
-				$status  = $addon['status'];
+				$data    = $addon['data'];
 				$name    = $addon['name'];
-				$expires = $addon['expires'];
 			?>
 			<tr>
 				<th scope="row"><?php echo esc_html( $name ); ?></th>
@@ -37,13 +36,13 @@ defined( 'ABSPATH' ) || exit;
 							name="<?php echo esc_attr( $addon_id ); ?>"
 							value="<?php echo esc_attr( $license ); ?>"
 						>
-						<?php if ( $license && $expires && ! $this->is_license_expired( $expires ) ) : ?>
+						<?php if ( $license && isset( $data->license ) && $data->license === 'valid' ) : ?>
 						<div class="carbon-wp-notice notice-success is-alt">
-							<p><strong><?php echo sprintf( esc_html__( 'License expires on %s' ), date_i18n( get_option( 'date_format' ), strtotime( $expires ) ) ); ?></strong></p>
+							<p><strong><?php echo sprintf( esc_html__( 'License expires on %s' ), date_i18n( get_option( 'date_format' ), strtotime( $data->expires ) ) ); ?></strong></p>
 						</div>
-						<?php elseif ( $license && $expires && $this->is_license_expired( $expires ) ) : ?>
-						<div class="carbon-wp-notice notice-success is-alt">
-							<p><strong><?php echo sprintf( esc_html__( 'License expires on %s' ), date_i18n( get_option( 'date_format' ), strtotime( $expires ) ) ); ?></strong></p>
+						<?php elseif ( $license && isset( $data->license ) && $data->license !== 'valid' ) : ?>
+						<div class="carbon-wp-notice notice-error is-alt">
+							<p><strong><?php esc_html_e( 'This license is no longer valid and it\'s not receiving updates or support.' ); ?></strong></p>
 						</div>
 						<?php elseif ( ! $license ) : ?>
 						<div class="carbon-wp-notice notice-warning is-alt">
@@ -51,9 +50,15 @@ defined( 'ABSPATH' ) || exit;
 						</div>
 						<?php endif; ?>
 						<div class="edd-license-data">
-							<?php if ( ! $license ) : ?>
-								<?php submit_button( 'Activate license', 'submit button-primary large-button', 'submit_' . $addon_id, false ); ?>
-							<?php elseif ( $license && $status === 'valid' ) : ?>
+							<?php if ( ! $license || isset( $data->license ) && $data->license !== 'valid' ) : ?>
+								<?php
+									if ( isset( $data->license ) && $data->license !== 'valid' ) {
+										submit_button( 'Re-validate license', 'submit button-primary large-button', 'submit_' . $addon_id, false );
+									} else {
+										submit_button( 'Activate license', 'submit button-primary large-button', 'submit_' . $addon_id, false );
+									}
+								?>
+							<?php elseif ( $license ) : ?>
 								<a href="<?php echo esc_url( $this->get_deactivation_url( $addon_id ) ); ?>" class="button button-large"><?php esc_html_e( 'Deactivate' ); ?></a>
 							<?php endif; ?>
 						</div>
