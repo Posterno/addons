@@ -39,11 +39,11 @@ function pno_display_admin_listings_tabs() {
 
 		$tabs       = array(
 			'listings'     => array(
-				'name' => esc_html__( 'Listings' ),
+				'name' => esc_html__( 'Listings', 'posterno' ),
 				'url'  => admin_url( 'edit.php?post_type=listings' ),
 			),
 			'integrations' => array(
-				'name' => esc_html__( 'Extensions' ),
+				'name' => esc_html__( 'Extensions', 'posterno' ),
 				'url'  => admin_url( 'edit.php?post_type=listings&page=posterno-addons' ),
 			),
 		);
@@ -58,7 +58,7 @@ function pno_display_admin_listings_tabs() {
 		?>
 
 		<a href="<?php echo admin_url( 'post-new.php?post_type=listings' ); ?>" class="page-title-action">
-			<?php esc_html_e( 'Add new' ); ?>
+			<?php esc_html_e( 'Add new', 'posterno' ); ?>
 		</a>
 	</h2>
 	<br />

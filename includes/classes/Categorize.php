@@ -57,7 +57,7 @@ class Categorize {
 			$views['posterno'] = sprintf(
 				'<a class="%s" href="plugins.php?plugin_status=posterno"> %s <span class="count">(%s) </span></a>',
 				$class,
-				esc_html__( 'Posterno' ),
+				esc_html__( 'Posterno', 'posterno' ),
 				count( $plugins['posterno'] )
 			);
 		}

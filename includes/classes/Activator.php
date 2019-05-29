@@ -48,7 +48,7 @@ class Activator {
 	public function register_tool( $tabs ) {
 
 		if ( ! empty( $this->get_addons() ) ) {
-			$tabs['licenses'] = esc_html__( 'Licenses' );
+			$tabs['licenses'] = esc_html__( 'Licenses', 'posterno' );
 		}
 
 		return $tabs;
@@ -108,11 +108,11 @@ class Activator {
 		}
 
 		if ( isset( $_GET['sl_activation'] ) && $_GET['sl_activation'] === 'true' ) {
-			posterno()->admin_notices->register_notice( 'addon_notice_success', 'success', esc_html__( 'Addon successfully activated.' ), [ 'dismissible' => false ] );
+			posterno()->admin_notices->register_notice( 'addon_notice_success', 'success', esc_html__( 'Addon successfully activated.', 'posterno' ), [ 'dismissible' => false ] );
 		}
 
 		if ( isset( $_GET['sl_deactivated'] ) && $_GET['sl_deactivated'] === 'true' ) {
-			posterno()->admin_notices->register_notice( 'addon_notice_success_deactivation', 'success', esc_html__( 'Addon successfully deactivated.' ), [ 'dismissible' => false ] );
+			posterno()->admin_notices->register_notice( 'addon_notice_success_deactivation', 'success', esc_html__( 'Addon successfully deactivated.', 'posterno' ), [ 'dismissible' => false ] );
 		}
 
 	}

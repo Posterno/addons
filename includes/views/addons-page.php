@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 
 <div class="pno-admin-title-area">
 	<div class="wrap">
-		<h1><?php esc_html_e( 'Posterno addons' ); ?></h1>
+		<h1><?php esc_html_e( 'Posterno addons', 'posterno' ); ?></h1>
 		<ul class="title-links hidden-sm-and-down">
 			<li>
 				<a href="https://posterno.com/addons" rel="nofollow" target="_blank" class="page-title-action"><?php esc_html_e( 'View all addons', 'posterno' ); ?></a>
@@ -29,8 +29,8 @@ defined( 'ABSPATH' ) || exit;
 
 <div class="wrap">
 
-	<h2><?php esc_html_e( 'Apps and Integrations for Posterno' ); ?></h2>
-	<p><?php esc_html_e( 'These add functionality to your Posterno powered listings directory.' ); ?></p>
+	<h2><?php esc_html_e( 'Apps and Integrations for Posterno', 'posterno' ); ?></h2>
+	<p><?php esc_html_e( 'These add functionality to your Posterno powered listings directory.', 'posterno' ); ?></p>
 
 </div>
 
@@ -52,7 +52,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 			<div class="action-links">
 				<ul class="plugin-action-buttons">
-					<li><a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button" rel="nofollow" target="_blank"><?php esc_html_e( 'Get this extension' ); ?></a></li>
+					<li><a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button" rel="nofollow" target="_blank"><?php esc_html_e( 'Get this extension', 'posterno' ); ?></a></li>
 				</ul>
 			</div>
 			<div class="desc column-description">
@@ -61,7 +61,7 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 		<div class="plugin-card-bottom">
 			<div class="column-compatibility">
-				<a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button" rel="nofollow" target="_blank"><?php esc_html_e( 'Get this extension' ); ?></a>
+				<a class="button" href="<?php echo esc_url( $addon['url'] ); ?>" role="button" rel="nofollow" target="_blank"><?php esc_html_e( 'Get this extension', 'posterno' ); ?></a>
 			</div>
 		</div>
 	</div>

@@ -214,7 +214,7 @@ class License {
 			if ( is_wp_error( $response ) ) {
 				$message = $response->get_error_message();
 			} else {
-				$message = esc_html__( 'An error occurred, please try again.' );
+				$message = esc_html__( 'An error occurred, please try again.', 'posterno' );
 			}
 		} else {
 
@@ -224,29 +224,29 @@ class License {
 				switch ( $license_data->error ) {
 					case 'expired':
 						$message = sprintf(
-							esc_html__( 'Your license key expired on %s.' ),
+							esc_html__( 'Your license key expired on %s.', 'posterno' ),
 							date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
 						);
 						break;
 					case 'disabled':
 					case 'revoked':
-						$message = esc_html__( 'Your license key has been disabled.' );
+						$message = esc_html__( 'Your license key has been disabled.', 'posterno' );
 						break;
 					case 'missing':
-						$message = esc_html__( 'Invalid license.' );
+						$message = esc_html__( 'Invalid license.', 'posterno' );
 						break;
 					case 'invalid':
 					case 'site_inactive':
-						$message = esc_html__( 'Your license is not active for this URL.' );
+						$message = esc_html__( 'Your license is not active for this URL.', 'posterno' );
 						break;
 					case 'item_name_mismatch':
-						$message = sprintf( esc_html__( 'This appears to be an invalid license key for %s.' ), $this->addon_name );
+						$message = sprintf( esc_html__( 'This appears to be an invalid license key for %s.', 'posterno' ), $this->addon_name );
 						break;
 					case 'no_activations_left':
-						$message = esc_html__( 'Your license key has reached its activation limit.' );
+						$message = esc_html__( 'Your license key has reached its activation limit.', 'posterno' );
 						break;
 					default:
-						$message = esc_html__( 'An error occurred, please try again.' );
+						$message = esc_html__( 'An error occurred, please try again.', 'posterno' );
 						break;
 				}
 			}
@@ -332,7 +332,7 @@ class License {
 			if ( is_wp_error( $response ) ) {
 				$message = $response->get_error_message();
 			} else {
-				$message = esc_html__( 'An error occurred, please try again.' );
+				$message = esc_html__( 'An error occurred, please try again.', 'posterno' );
 			}
 
 			$redirect = add_query_arg(
@@ -393,7 +393,7 @@ class License {
 		$message_data = array();
 		if ( ! pno_get_option( $this->addon_shortname ) ) {
 			$message_data['message'] = sprintf(
-				__( 'Please <a href="%1$s">activate your license</a> to receive updates and support for the %2$s add-on.' ),
+				__( 'Please <a href="%1$s">activate your license</a> to receive updates and support for the %2$s add-on.', 'posterno' ),
 				esc_url( admin_url( 'tools.php?page=posterno-tools&tab=licenses' ) ),
 				'<strong>' . $this->addon_name . '</strong>'
 			);
@@ -432,7 +432,7 @@ class License {
 
 		if ( is_object( $license_data ) && 'valid' !== $license_data->license ) {
 
-			$message = sprintf( __( 'You have an invalid or expired license key for the Posterno addon "%1$s" and it\'s not receiving updates or support. Please <a href="%2$s">activate</a> or <a href="%3$s">renew your license</a> key to fix the issue.' ), $this->addon_name, admin_url( 'tools.php?page=posterno-tools&tab=licenses' ), '' );
+			$message = sprintf( __( 'You have an invalid or expired license key for the Posterno addon "%1$s" and it\'s not receiving updates or support. Please <a href="%2$s">activate</a> or <a href="%3$s">renew your license</a> key to fix the issue.', 'posterno' ), $this->addon_name, admin_url( 'tools.php?page=posterno-tools&tab=licenses' ), '' );
 
 			posterno()->admin_notices->register_notice( 'pno_invalid_license_data_' . $this->addon_shortname, 'error', $message );
 

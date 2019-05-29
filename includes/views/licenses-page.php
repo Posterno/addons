@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 ?>
 
-<p><?php esc_html_e( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please renew your license.' ); ?></p>
+<p><?php esc_html_e( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please renew your license.', 'posterno' ); ?></p>
 
 <div class="wrap-licenses">
 	<table class="form-table">
@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
 					<form method="post" action="options.php">
 						<input
 							type="text"
-							placeholder="<?php esc_html_e( 'Enter your license key' ); ?>"
+							placeholder="<?php esc_html_e( 'Enter your license key', 'posterno' ); ?>"
 							class="regular-text"
 							id="<?php echo esc_attr( $addon_id ); ?>"
 							name="<?php echo esc_attr( $addon_id ); ?>"
@@ -38,15 +38,15 @@ defined( 'ABSPATH' ) || exit;
 						>
 						<?php if ( $license && isset( $data->license ) && $data->license === 'valid' ) : ?>
 						<div class="carbon-wp-notice notice-success is-alt">
-							<p><strong><?php echo sprintf( esc_html__( 'License expires on %s' ), date_i18n( get_option( 'date_format' ), strtotime( $data->expires ) ) ); ?></strong></p>
+							<p><strong><?php echo sprintf( esc_html__( 'License expires on %s', 'posterno' ), date_i18n( get_option( 'date_format' ), strtotime( $data->expires ) ) ); ?></strong></p>
 						</div>
 						<?php elseif ( $license && isset( $data->license ) && $data->license !== 'valid' ) : ?>
 						<div class="carbon-wp-notice notice-error is-alt">
-							<p><strong><?php esc_html_e( 'This license is no longer valid and it\'s not receiving updates or support.' ); ?></strong></p>
+							<p><strong><?php esc_html_e( 'This license is no longer valid and it\'s not receiving updates or support.', 'posterno' ); ?></strong></p>
 						</div>
 						<?php elseif ( ! $license ) : ?>
 						<div class="carbon-wp-notice notice-warning is-alt">
-							<p><?php printf( esc_html__( 'To receive updates, please enter your valid "%s" license key.' ), $name ); ?></p>
+							<p><?php printf( esc_html__( 'To receive updates, please enter your valid "%s" license key.', 'posterno' ), $name ); ?></p>
 						</div>
 						<?php endif; ?>
 						<div class="edd-license-data">
@@ -59,7 +59,7 @@ defined( 'ABSPATH' ) || exit;
 									}
 								?>
 							<?php elseif ( $license ) : ?>
-								<a href="<?php echo esc_url( $this->get_deactivation_url( $addon_id ) ); ?>" class="button button-large"><?php esc_html_e( 'Deactivate' ); ?></a>
+								<a href="<?php echo esc_url( $this->get_deactivation_url( $addon_id ) ); ?>" class="button button-large"><?php esc_html_e( 'Deactivate', 'posterno' ); ?></a>
 							<?php endif; ?>
 						</div>
 						<?php
