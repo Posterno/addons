@@ -147,6 +147,8 @@ class License {
 			add_action( 'posterno_weekly_scheduled_events', [ $this, 'weekly_license_check' ] );
 		}
 
+		add_action( 'admin_head', [ $this, 'expired_notice' ] );
+
 	}
 
 	/**
@@ -411,6 +413,34 @@ class License {
 	public function weekly_license_check() {
 
 		pno_check_addon_license( $this->addon_shortname, $this->addon_name, $this->addon_id, $this->api_url );
+
+	}
+
+	/**
+	 * Get license data stored about the addon.
+	 *
+	 * @return mixed
+	 */
+	public function get_license_data() {
+		return get_option( $this->addon_shortname . '_license_data', false );
+	}
+
+	/**
+	 * Show a notice when a license is expired.
+	 *
+	 * @return void
+	 */
+	public function expired_notice() {
+
+		$license_data = $this->get_license_data();
+
+		if ( is_object( $license_data ) && 'valid' !== $license_data->license ) {
+
+			$message = sprintf( __( 'You have an invalid or expired license key for the Posterno addon "%1$s" and it\'s not receiving updates or support. Please <a href="%2$s">activate</a> or <a href="%3$s">renew your license</a> key to fix the issue.' ), $this->addon_name, admin_url( 'tools.php?page=posterno-tools&tab=licenses' ), '' );
+
+			posterno()->admin_notices->register_notice( 'pno_invalid_license_data_' . $this->addon_shortname, 'error', $message );
+
+		}
 
 	}
 
