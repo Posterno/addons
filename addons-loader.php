@@ -112,6 +112,8 @@ function pno_check_addon_license( $addon_shortname, $addon_name, $addon_id, $api
 
 	$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
+	posterno()->admin_notices->restore_notice( 'pno_invalid_license_data_' . $addon_shortname );
+
 	update_option( $addon_shortname . '_license_data', $license_data );
 
 }
