@@ -72,7 +72,7 @@ class License {
 	 *
 	 * @var string
 	 */
-	private $api_url = 'http://pno.local';
+	private $api_url = 'https://posterno.com';
 
 	/**
 	 * Get things started.
