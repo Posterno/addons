@@ -13,6 +13,10 @@ body.post-type-listings {
 		.page-title-action {
 			margin-left: 10px;
 			top: 5px;
+			&:active {
+				margin-left: 10px;
+				top: 5px;
+			}
 		}
 	}
 
