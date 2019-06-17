@@ -57,9 +57,9 @@ function pno_display_admin_listings_tabs() {
 		}
 		?>
 
-		<a href="<?php echo admin_url( 'post-new.php?post_type=listings' ); ?>" class="page-title-action">
-			<?php esc_html_e( 'Add new', 'posterno' ); ?>
-		</a>
+		<a href="<?php echo admin_url( 'post-new.php?post_type=listings' ); ?>" class="page-title-action"><?php esc_html_e( 'Add new', 'posterno' ); ?></a>
+		<a href="<?php echo esc_url( 'edit.php?post_type=listings&page=listing_importer' ); ?>" class="page-title-action"><?php esc_html_e( 'Import', 'posterno' ); ?></a>
+		<a href="<?php echo esc_url( 'edit.php?post_type=listings&page=listings_exporter' ); ?>" class="page-title-action"><?php esc_html_e( 'Export', 'posterno' ); ?></a>
 	</h2>
 	<br />
 	<?php
