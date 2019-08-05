@@ -48,7 +48,7 @@ class Page {
 	 * @return void
 	 */
 	public function admin_menu() {
-		add_submenu_page( 'edit.php?post_type=listings', esc_html__( 'Posterno Extensions', 'posterno' ), esc_html__( 'Extensions', 'posterno' ), 'manage_options', 'posterno-addons', [ $this, 'display' ] );
+		add_submenu_page( 'edit.php?post_type=listings', esc_html__( 'Posterno Extensions', 'posterno' ), '<span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . esc_html__( 'Extensions', 'posterno' ), 'manage_options', 'posterno-addons', [ $this, 'display' ] );
 	}
 
 	/**
