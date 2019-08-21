@@ -43,7 +43,7 @@ function pno_display_admin_listings_tabs() {
 				'url'  => admin_url( 'edit.php?post_type=listings' ),
 			),
 			'integrations' => array(
-				'name' => esc_html__( 'Extensions', 'posterno' ),
+				'name' => esc_html__( 'Add-ons', 'posterno' ),
 				'url'  => admin_url( 'edit.php?post_type=listings&page=posterno-addons' ),
 			),
 		);

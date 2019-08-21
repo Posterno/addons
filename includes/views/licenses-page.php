@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 ?>
 
-<p><?php esc_html_e( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please renew your license.', 'posterno' ); ?></p>
+<p><?php esc_html_e( 'Enter your extension license keys here to receive updates for purchased add-ons. If your license key has expired, please renew your license.', 'posterno' ); ?></p>
 
 <div class="wrap-licenses">
 	<table class="form-table">
