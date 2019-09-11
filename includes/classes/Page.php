@@ -109,7 +109,7 @@ class Page {
 				}
 
 				if ( isset( $ref_body->refs[0]->ref ) ) {
-					$api_url = 'https://posterno.cdn.prismic.io/api/v1/documents/search?ref=' . esc_html( $ref_body->refs[0]->ref ) . '&q=[[:d+=+at(document.id,+"XOj-HRYAAGTU6GnB")+]]';
+					$api_url = 'https://posterno.cdn.prismic.io/api/v1/documents/search?ref=' . esc_html( $ref_body->refs[0]->ref );
 				} else {
 					return [];
 				}
