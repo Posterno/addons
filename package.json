@@ -47,11 +47,13 @@
 		"postcss-preset-env": "^6.5.0",
 		"rimraf": "^3.0.0",
 		"sass": "^1.16.0",
-		"sass-loader": "^8.0.0",
 		"stylelint": "^11.0.0",
 		"stylelint-config-wordpress": "^14.0.0",
 		"stylelint-declaration-use-variable": "^1.7.0",
 		"stylelint-order": "^3.1.1",
 		"vue-template-compiler": "^2.5.22"
+	},
+	"dependencies": {
+		"sass-loader": "7.1.0"
 	}
 }
