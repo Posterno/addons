@@ -128,22 +128,27 @@ class Page {
 
 				if ( isset( $body->results ) && is_array( $body->results ) && ! empty( $body->results ) ) {
 					foreach ( $body->results as $addon ) {
+
 						$id          = isset( $addon->slugs[0] ) ? wp_strip_all_tags( $addon->slugs[0] ) : false;
 						$title       = isset( $addon->data->addons->title->value[0]->text ) ? wp_strip_all_tags( $addon->data->addons->title->value[0]->text ) : false;
 						$description = isset( $addon->data->addons->description->value[0]->text ) ? wp_strip_all_tags( $addon->data->addons->description->value[0]->text ) : false;
 						$url         = isset( $addon->data->addons->download_url->value->url ) ? wp_strip_all_tags( $addon->data->addons->download_url->value->url ) : false;
 						$icon        = isset( $addon->data->addons->addon_icon->value->main->url ) ? esc_url( $addon->data->addons->addon_icon->value->main->url ) : false;
+						$priority    = isset( $addon->data->addons->addon_order->value ) ? absint( $addon->data->addons->addon_order->value ) : 100;
 
 						if ( $id && $title && $description && $url ) {
 							$found_addons[ $id ] = [
-								'title' => $title,
-								'desc'  => $description,
-								'url'   => $url,
-								'icon'  => $icon,
+								'title'    => $title,
+								'desc'     => $description,
+								'url'      => $url,
+								'icon'     => $icon,
+								'priority' => $priority,
 							];
 						}
 					}
 				}
+
+				uasort( $found_addons, 'pno_sort_array_by_priority' );
 
 				return $found_addons;
 
