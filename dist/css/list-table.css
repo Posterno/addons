@@ -1,15 +1,1 @@
-body.post-type-listings .wrap h1.wp-heading-inline {
-	display: none;
-}
-body.post-type-listings .wrap h1.wp-heading-inline ~ .page-title-action {
-	display: none;
-}
-body.post-type-listings h2 .page-title-action {
-	margin-left: 10px;
-	top: 5px;
-}
-body.post-type-listings h2 .page-title-action:active {
-	margin-left: 10px;
-	top: 5px;
-}
-/*# sourceMappingURL=list-table.css.map*/
+body.post-type-listings .wrap h1.wp-heading-inline,body.post-type-listings .wrap h1.wp-heading-inline~.page-title-action{display:none}body.post-type-listings h2 .page-title-action,body.post-type-listings h2 .page-title-action:active{margin-left:10px;top:5px}
