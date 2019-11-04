@@ -66,6 +66,7 @@ class Page {
 
 		if ( $screen->id === 'listings_page_posterno-addons' ) {
 			wp_enqueue_style( 'pno-options-panel', PNO_PLUGIN_URL . '/assets/css/admin/admin-settings-panel.min.css', false, PNO_VERSION );
+			wp_enqueue_style( 'pno-addons-style', PNO_PLUGIN_URL . '/vendor/posterno/addons/dist/css/addons-page.css', false, PNO_VERSION );
 		}
 	}
 

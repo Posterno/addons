@@ -30,7 +30,14 @@ defined( 'ABSPATH' ) || exit;
 <div class="wrap">
 
 	<h2><?php esc_html_e( 'Apps and Integrations for Posterno', 'posterno' ); ?></h2>
-	<p><?php esc_html_e( 'These add functionality to your Posterno powered listings directory.', 'posterno' ); ?></p>
+
+	<div class="upgrade">
+		<p><?php esc_html_e( 'Gain access to all of our premium extensions with a single purchase and save hundreds compared to buying extensions individually.', 'posterno' ); ?></p>
+		<p><?php esc_html_e( 'Use the coupon code below for a 10% off discount on all our bundles.', 'posterno' ); ?></p>
+		<pre>GETSTARTED</pre>
+
+		<a href="https://posterno.com/pricing" class="button"><?php esc_html_e( 'Get the bundle', 'posterno' ); ?> &raquo;</a>
+	</div>
 
 </div>
 

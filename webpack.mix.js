@@ -105,6 +105,7 @@ var sassConfig = {
 // Compile SASS/CSS.
 mix.sass( `${devPath}/scss/list-table.scss`, 'css', sassConfig );
 mix.sass( `${devPath}/scss/licenses-table.scss`, 'css', sassConfig );
+mix.sass( `${devPath}/scss/addons-page.scss`, 'css', sassConfig );
 
 /*
  * Add custom Webpack configuration.
